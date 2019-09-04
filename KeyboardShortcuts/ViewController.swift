@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var lblAllKeys: UILabel!
     @IBOutlet weak var txtShortcutName: UITextField!
-    @IBOutlet weak var txtKeys:UITextField!
+    @IBOutlet weak var txtKeys: UITextField!
+    let shortcut = Shortcut()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,15 +22,22 @@ class ViewController: UIViewController {
     
     @IBAction func onBtnAddKeyClick(_ sender: UIButton, forEvent event: UIEvent) {
         
-        lblAllKeys.text = lblAllKeys.text! + txtKeys.text! + " ";
-        txtKeys.text = "";
+        let key: String = txtKeys.text ?? ""
+        
+        shortcut.Keys.insert(key)
+        lblAllKeys.text = lblAllKeys.text! + txtKeys.text! + " "
+        txtKeys.text = ""
         
     }
     
     @IBAction func onBtnSaveShortcutClicked(_ sender: UIButton, forEvent event: UIEvent) {
         
-        txtShortcutName.text = "";
-        lblAllKeys.text = "";
+        let name:String = txtShortcutName.text!
+        shortcut.ShortcutName = name
+        
+        txtShortcutName.text = ""
+        lblAllKeys.text = ""
+        shortcut.Keys = []
     }
     
     
