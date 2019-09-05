@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C232E2642321A6EA00744AB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C232E2632321A6EA00744AB3 /* GoogleService-Info.plist */; };
 		C295B526231F1DF400F3B978 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C295B525231F1DF400F3B978 /* AppDelegate.swift */; };
 		C295B528231F1DF400F3B978 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C295B527231F1DF400F3B978 /* ViewController.swift */; };
 		C295B52B231F1DF400F3B978 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C295B529231F1DF400F3B978 /* Main.storyboard */; };
 		C295B52D231F1DF600F3B978 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C295B52C231F1DF600F3B978 /* Assets.xcassets */; };
 		C295B530231F1DF600F3B978 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C295B52E231F1DF600F3B978 /* LaunchScreen.storyboard */; };
 		C296B19A232011E100BF456E /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = C296B199232011E100BF456E /* Shortcut.swift */; };
+		E160F75C461779806B8B4CF6 /* Pods_KeyboardShortcuts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8604C672AA150ABE6B8467 /* Pods_KeyboardShortcuts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		37F69D554371F8BCB0AB886C /* Pods-KeyboardShortcuts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyboardShortcuts.debug.xcconfig"; path = "Target Support Files/Pods-KeyboardShortcuts/Pods-KeyboardShortcuts.debug.xcconfig"; sourceTree = "<group>"; };
+		B35EE3E2E554B55F77224E0D /* Pods-KeyboardShortcuts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyboardShortcuts.release.xcconfig"; path = "Target Support Files/Pods-KeyboardShortcuts/Pods-KeyboardShortcuts.release.xcconfig"; sourceTree = "<group>"; };
+		C232E2632321A6EA00744AB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C295B522231F1DF400F3B978 /* KeyboardShortcuts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KeyboardShortcuts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C295B525231F1DF400F3B978 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C295B527231F1DF400F3B978 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +29,7 @@
 		C295B52F231F1DF600F3B978 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C295B531231F1DF600F3B978 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C296B199232011E100BF456E /* Shortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcut.swift; sourceTree = "<group>"; };
+		CE8604C672AA150ABE6B8467 /* Pods_KeyboardShortcuts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KeyboardShortcuts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +37,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E160F75C461779806B8B4CF6 /* Pods_KeyboardShortcuts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D7705E5C67E163535F26538 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				37F69D554371F8BCB0AB886C /* Pods-KeyboardShortcuts.debug.xcconfig */,
+				B35EE3E2E554B55F77224E0D /* Pods-KeyboardShortcuts.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C295B519231F1DF400F3B978 = {
 			isa = PBXGroup;
 			children = (
 				C295B524231F1DF400F3B978 /* KeyboardShortcuts */,
 				C295B523231F1DF400F3B978 /* Products */,
+				5D7705E5C67E163535F26538 /* Pods */,
+				C8DB47A31E9903E3281BA0CB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,6 +75,7 @@
 		C295B524231F1DF400F3B978 /* KeyboardShortcuts */ = {
 			isa = PBXGroup;
 			children = (
+				C232E2632321A6EA00744AB3 /* GoogleService-Info.plist */,
 				C296B19823200C4A00BF456E /* DTO */,
 				C295B525231F1DF400F3B978 /* AppDelegate.swift */,
 				C295B527231F1DF400F3B978 /* ViewController.swift */,
@@ -75,6 +95,14 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		C8DB47A31E9903E3281BA0CB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CE8604C672AA150ABE6B8467 /* Pods_KeyboardShortcuts.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -82,9 +110,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C295B534231F1DF600F3B978 /* Build configuration list for PBXNativeTarget "KeyboardShortcuts" */;
 			buildPhases = (
+				AC83E9E7379C710250160F0A /* [CP] Check Pods Manifest.lock */,
 				C295B51E231F1DF400F3B978 /* Sources */,
 				C295B51F231F1DF400F3B978 /* Frameworks */,
 				C295B520231F1DF400F3B978 /* Resources */,
+				32BF196DA2C16F9199768EA4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -134,12 +164,66 @@
 			buildActionMask = 2147483647;
 			files = (
 				C295B530231F1DF600F3B978 /* LaunchScreen.storyboard in Resources */,
+				C232E2642321A6EA00744AB3 /* GoogleService-Info.plist in Resources */,
 				C295B52D231F1DF600F3B978 /* Assets.xcassets in Resources */,
 				C295B52B231F1DF400F3B978 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		32BF196DA2C16F9199768EA4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KeyboardShortcuts/Pods-KeyboardShortcuts-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KeyboardShortcuts/Pods-KeyboardShortcuts-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC83E9E7379C710250160F0A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KeyboardShortcuts-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C295B51E231F1DF400F3B978 /* Sources */ = {
@@ -292,6 +376,7 @@
 		};
 		C295B535231F1DF600F3B978 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37F69D554371F8BCB0AB886C /* Pods-KeyboardShortcuts.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -310,6 +395,7 @@
 		};
 		C295B536231F1DF600F3B978 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B35EE3E2E554B55F77224E0D /* Pods-KeyboardShortcuts.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
