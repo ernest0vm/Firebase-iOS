@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import Firebase
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate {
     
@@ -15,20 +16,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
     @IBOutlet weak var txtShortcutName: UITextField!
     @IBOutlet weak var txtKeys: UITextField!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var navBar: UINavigationBar!
     
+    var DBReference: DatabaseReference!
     var picker = UIImagePickerController()
     var shortcut = Shortcut()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self
+        DBReference = Database.database().reference()
     }
     
     @IBAction func onBtnAddKeyClick(_ sender: UIButton, forEvent event: UIEvent) {
         
-        let key: String = txtKeys.text!
+        let key: NSString = txtKeys.text! as NSString
         
-        shortcut.Keys.insert(key)
+        shortcut.Keys.append(key)
         lblAllKeys.text = lblAllKeys.text! + txtKeys.text! + " "
         txtKeys.text = ""
         
@@ -36,9 +40,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
     
     @IBAction func onBtnSaveShortcutClicked(_ sender: UIButton, forEvent event: UIEvent) {
         
-        let name:String = txtShortcutName.text!
+        let name:NSString = txtShortcutName.text! as NSString
         shortcut.ShortcutName = name
         
+        //add new object in database
+        DBReference.child("root").childByAutoId().setValue(shortcut.ToDictionary())
+        
+        //clear all data
         txtShortcutName.text = ""
         lblAllKeys.text = ""
         shortcut.Keys = []
