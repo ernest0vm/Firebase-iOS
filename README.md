@@ -102,3 +102,6 @@ pod 'Firebase/Auth'
 - https://firebase.google.com/docs/ios/setup
 - https://github.com/firebase/quickstart-ios
 - https://firebase.google.com/docs/database/ios/read-and-write
+- https://firebase.google.com/docs/storage/ios/start#set_up
+- https://firebase.google.com/docs/storage/ios/create-reference
+- https://firebase.google.com/docs/storage/ios/upload-files

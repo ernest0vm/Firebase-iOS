@@ -30,4 +30,10 @@ class Shortcut {
         
         return dictionary
     }
+    
+    func ToString() -> String {
+        let stringBuilder: String = "name: \(ShortcutName), Keys: \(Keys), imageUri: \(imageUri), voteUP: \(voteUP), voteDown: \(voteDown)]"
+        
+        return stringBuilder
+    }
 }

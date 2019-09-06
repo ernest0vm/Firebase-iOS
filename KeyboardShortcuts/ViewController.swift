@@ -19,13 +19,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
     @IBOutlet weak var navBar: UINavigationBar!
     
     var DBReference: DatabaseReference!
+    var STReference: StorageReference!
     var picker = UIImagePickerController()
     var shortcut = Shortcut()
+    var imageLocalURL: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self
         DBReference = Database.database().reference()
+        STReference = Storage.storage().reference()
     }
     
     @IBAction func onBtnAddKeyClick(_ sender: UIButton, forEvent event: UIEvent) {
@@ -43,14 +46,75 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
         let name:NSString = txtShortcutName.text! as NSString
         shortcut.ShortcutName = name
         
-        //add new object in database
-        DBReference.child("root").childByAutoId().setValue(shortcut.ToDictionary())
+        if imageLocalURL != nil {
+            // File located on disk
+            let localFile = URL(string: imageLocalURL!)!
+            
+            let getName = imageLocalURL?.components(separatedBy: "/")
+            
+            // Create a reference to the file you want to upload
+            let imageRef = STReference.child("images").child(getName!.last!)
+            
+            // Upload the file to the path "images/image-name.jpg"
+            let uploadTask = imageRef.putFile(from: localFile, metadata: nil) { metadata, error in
+                guard let metadata = metadata else {
+                    // Uh-oh, an error occurred!
+                    return
+                }
+                // Metadata contains file metadata such as size, content-type.
+                let size = metadata.size
+                // You can also access to download URL after upload.
+                imageRef.downloadURL { (url, error) in
+                    guard let downloadURL = url else {
+                        // Uh-oh, an error occurred!
+                        return
+                    }
+                    
+                self.shortcut.imageUri = "\(downloadURL)" as NSString
+                
+                //Save shortcut with image
+                self.saveShortcutOnFirebase()
+                }
+            }
+            
+            // Add a progress observer to an upload task
+            uploadTask.observe(.progress) { snapshot in
+                // Upload reported progress
+                let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                    / Double(snapshot.progress!.totalUnitCount)
+            }
+            
+            uploadTask.observe(.success) { snapshot in
+                // Upload completed successfully
+            }
+            
+            uploadTask.observe(.failure) { snapshot in
+                if let error = snapshot.error as NSError? {
+                    switch (StorageErrorCode(rawValue: error.code)!) {
+                    case .objectNotFound:
+                        // File doesn't exist
+                        break
+                    case .unauthorized:
+                        // User doesn't have permission to access file
+                        break
+                    case .cancelled:
+                        // User canceled the upload
+                        break
+                    case .unknown:
+                        // Unknown error occurred, inspect the server response
+                        break
+                    default:
+                        // A separate error occurred. This is a good place to retry the upload.
+                        break
+                    }
+                }
+            }
+            
+        } else {
+            //Save shortcut without image
+            saveShortcutOnFirebase()
+        }
         
-        //clear all data
-        txtShortcutName.text = ""
-        lblAllKeys.text = ""
-        shortcut.Keys = []
-        imageView.image = nil
     }
     
     @IBAction func onBtnOpenGalleryClicked(_ sender: UIButton, forEvent event: UIEvent) {
@@ -59,6 +123,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
     
     @IBAction func onBtnOpenCameraClicked(_ sender: UIButton, forEvent event: UIEvent) {
         openCamera()
+    }
+    
+    func saveShortcutOnFirebase(){
+        
+        print(shortcut.ToString())
+        
+        //add new object in database
+        DBReference.child("root").childByAutoId().setValue(shortcut.ToDictionary())
+        
+        //clear all data
+        txtShortcutName.text = ""
+        lblAllKeys.text = ""
+        shortcut.Keys = []
+        imageView.image = nil
     }
     
     func openGallery()
@@ -90,6 +168,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
     }
     
     func imagePickerController (_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let imageURL = info[.imageURL] as? NSURL{
+            imageLocalURL = "\(imageURL)"
+        }
+        
         if let pickedImage = info[.originalImage] as? UIImage {
             imageView.contentMode = .scaleAspectFit
             imageView.image = pickedImage
