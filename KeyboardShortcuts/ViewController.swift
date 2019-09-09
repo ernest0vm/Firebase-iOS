@@ -9,14 +9,14 @@
 import UIKit
 import Photos
 import Firebase
+import UserNotifications
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UNUserNotificationCenterDelegate  {
     
     @IBOutlet weak var lblAllKeys: UILabel!
     @IBOutlet weak var txtShortcutName: UITextField!
     @IBOutlet weak var txtKeys: UITextField!
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var navBar: UINavigationBar!
     
     var DBReference: DatabaseReference!
     var STReference: StorageReference!
@@ -29,13 +29,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
         picker.delegate = self
         DBReference = Database.database().reference()
         STReference = Storage.storage().reference()
+        self.getDataFromFirebase()
     }
     
     @IBAction func onBtnAddKeyClick(_ sender: UIButton, forEvent event: UIEvent) {
         
-        let key: NSString = txtKeys.text! as NSString
-        
-        shortcut.Keys.append(key)
+        let key: String = txtKeys.text! as String
+        shortcut.keys.append(key)
         lblAllKeys.text = lblAllKeys.text! + txtKeys.text! + " "
         txtKeys.text = ""
         
@@ -43,8 +43,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
     
     @IBAction func onBtnSaveShortcutClicked(_ sender: UIButton, forEvent event: UIEvent) {
         
-        let name:NSString = txtShortcutName.text! as NSString
-        shortcut.ShortcutName = name
+        let name: String = txtShortcutName.text! as String
+        shortcut.name = name
         
         if imageLocalURL != nil {
             // File located on disk
@@ -70,7 +70,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
                         return
                     }
                     
-                self.shortcut.imageUri = "\(downloadURL)" as NSString
+                self.shortcut.imageUri = "\(downloadURL)" as String
                 
                 //Save shortcut with image
                 self.saveShortcutOnFirebase()
@@ -135,7 +135,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
         //clear all data
         txtShortcutName.text = ""
         lblAllKeys.text = ""
-        shortcut.Keys = []
+        shortcut.keys = []
         imageView.image = nil
     }
     
@@ -207,6 +207,65 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UIPopov
         }
     }
     
+    public func showNotificationPermissionAlert(){
+        let alert = UIAlertController(title: "Remember grant access to notifications?", message: "It is recommended to receive notifications when other users add a new shortcut to the application.", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true)
+    }
+    
+    func getDataFromFirebase(){
+        DBReference.child("root").observe(DataEventType.value, with: { snapshot in
+           
+            let items = snapshot.value as? [String: AnyObject]
+            var newShortcut = Shortcut()
+            
+            for item in items!.values{
+                let newDict: NSDictionary = item as! NSDictionary
+                newShortcut = Shortcut().FromDict(dictionary: newDict)
+                print(newShortcut.ToString())
+            }
+        
+            // Get Notification of the last Shortcut added in Firebase
+            self.createAndShowNotification(shortcut: newShortcut)
+            
+        }, withCancel: { (error) in
+            print(error.localizedDescription)
+        })
+        
+    }
+    
+    func createAndShowNotification(shortcut: Shortcut){
+        
+        // Set notification content
+        let content = UNMutableNotificationContent()
+        content.title = shortcut.name
+        content.body = shortcut.keys.joined(separator: " ")
+        
+        // Create the trigger
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+        
+        // Create the request
+        let uuidString = UUID().uuidString
+        let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        // Schedule the request with the system.
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if error != nil {
+                // Handle any errors.
+            }
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        //displaying the ios local notification when app is in foreground
+        completionHandler([.alert, .badge, .sound])
+    }
 }
 
 
